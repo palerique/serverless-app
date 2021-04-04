@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": [
+      "ES6"
+    ],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ES6",
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./lambda/getHeroes/tsconfig.build.json"
+    },
+    {
+      "path": "./lambda/deleteHeroes/tsconfig.build.json"
+    }
+  ]
+}
