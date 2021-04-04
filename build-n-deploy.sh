@@ -9,11 +9,13 @@ set -x
 #  find . -name "yarn.lock" -type f -delete &&
 #  find . -name "tsconfig.build.tsbuildinfo" -type f -delete &&
 #  find . -name "tsconfig.tsbuildinfo" -type f -delete &&
+
+pushd backend || exit
   yarn install &&
-#  tsc --build --verbose layer/genericStuff/tsconfig.build.json &&
   yarn script:build-dependency-layer &&
   yarn build
+popd || exit
 
-#pushd terraform || exit
-#terraform apply -auto-approve
-#popd || exit
+pushd terraform || exit
+  terraform apply -auto-approve
+popd || exit
