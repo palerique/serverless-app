@@ -1,0 +1,64 @@
+<div class="container"
+     fxLayout="row"
+     fxLayoutAlign="center none">
+  <div fxFlex="95%">
+
+    <mat-card>
+      <mat-card-content>
+        <h2>Customers</h2>
+
+        <table [dataSource]="dataSource"
+               mat-table
+               matSort>
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="position">
+            <th *matHeaderCellDef
+                mat-header-cell
+                mat-sort-header> No.
+            </th>
+            <td *matCellDef="let element"
+                mat-cell> {{element.position}} </td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th *matHeaderCellDef
+                mat-header-cell
+                mat-sort-header> Name
+            </th>
+            <td *matCellDef="let element"
+                mat-cell> {{element.name}} </td>
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="weight">
+            <th *matHeaderCellDef
+                mat-header-cell
+                mat-sort-header> Weight
+            </th>
+            <td *matCellDef="let element"
+                mat-cell> {{element.weight}} </td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol">
+            <th *matHeaderCellDef
+                mat-header-cell
+                mat-sort-header> Symbol
+            </th>
+            <td *matCellDef="let element"
+                mat-cell> {{element.symbol}} </td>
+          </ng-container>
+
+          <tr *matHeaderRowDef="displayedColumns"
+              mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;"
+              mat-row></tr>
+        </table>
+
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</div>
