@@ -14,7 +14,7 @@ import {NotificationService} from './../../core/services/notification.service';
 export class PasswordResetRequestComponent implements OnInit {
 
   form!: FormGroup;
-  loading = true;
+  loading = false;
   private email = '';
 
   constructor(private authService: AuthenticationService,
@@ -37,7 +37,7 @@ export class PasswordResetRequestComponent implements OnInit {
   }
 
   resetPassword() {
-    this.loading = true;
+    this.loading = false;
     this.authService.passwordResetRequest(this.email)
       .subscribe(
         results => {

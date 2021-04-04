@@ -15,7 +15,7 @@ import {NotificationService} from '../../core/services/notification.service';
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
-  loading = true;
+  loading = false;
 
   constructor(private router: Router,
               private titleService: Title,
@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     const password = this.loginForm.get('password')?.value;
     const rememberMe = this.loginForm.get('rememberMe')?.value;
 
-    this.loading = true;
+    this.loading = false;
     this.authenticationService
       .login(email.toLowerCase(), password)
       .subscribe(

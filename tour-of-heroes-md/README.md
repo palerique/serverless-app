@@ -24,7 +24,7 @@ In addition to Angular 8, other well-known open-source libraries such as rxjs, m
 This application template came as a result of several applications that we have developed over the past few years. We
 have always used Angular Material components and wanted to create a starter template to save time for greenfield
 projects. We developed it based on user feedback and it is a powerful Angular admin dashboard, which allows you to build
-products like admin panels, content management systems (CMS) and customer relationship management (CRM) software.
+products like admin panels, content management systems (CMS) and hero relationship management (CRM) software.
 
 ### Starter Template Features
 
@@ -160,13 +160,13 @@ Within the download you'll find the following directories and files:
 │   │   │       ├── select-check-all.component.css
 │   │   │       ├── select-check-all.component.html
 │   │   │       └── select-check-all.component.ts
-│   │   ├── customers
-│   │   │   ├── customer-list
-│   │   │   │   ├── customer-list.component.css
-│   │   │   │   ├── customer-list.component.html
-│   │   │   │   └── customer-list.component.ts
-│   │   │   ├── customers-routing.module.ts
-│   │   │   └── customers.module.ts
+│   │   ├── heroes
+│   │   │   ├── hero-list
+│   │   │   │   ├── hero-list.component.css
+│   │   │   │   ├── hero-list.component.html
+│   │   │   │   └── hero-list.component.ts
+│   │   │   ├── heroes-routing.module.ts
+│   │   │   └── heroes.module.ts
 │   │   ├── dashboard
 │   │   │   ├── dashboard-home
 │   │   │   │   ├── dashboard-home.component.css

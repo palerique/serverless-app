@@ -15,7 +15,7 @@ export class PasswordResetComponent implements OnInit {
 
   email = '';
   form!: FormGroup;
-  loading = true;
+  loading = false;
   hideNewPassword: boolean;
   hideNewPasswordConfirm: boolean;
   private token = '';
@@ -57,7 +57,7 @@ export class PasswordResetComponent implements OnInit {
       return;
     }
 
-    this.loading = true;
+    this.loading = false;
 
     this.authService.passwordReset(this.email, this.token, password, passwordConfirm)
       .subscribe(
