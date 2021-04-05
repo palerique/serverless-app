@@ -1,4 +1,4 @@
-import { APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
 import { ScanInput } from 'aws-sdk/clients/dynamodb';
 
@@ -28,28 +28,22 @@ function getData(): { heroes: Hero[] } {
   return { heroes };
 }
 
-export const handler: APIGatewayProxyHandler = async (event, context) => {
-  let result: APIGatewayProxyResult;
-
+export const handler: APIGatewayProxyHandler = (event, context) => {
   // fetch all todos from the database
   // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
-  await dynamoDb.scan(params, (error, queryResult) => {
+  dynamoDb.scan(params, (error, queryResult) => {
     // handle potential errors
     if (error) {
       console.error(error);
-      result = {
+      return {
         statusCode: error.statusCode || 501,
         headers: { 'Content-Type': 'text/plain' },
         body: "Couldn't fetch the todo items.",
       };
-    } else {
-      result = {
-        statusCode: 200,
-        body: JSON.stringify({ result: queryResult, data: getData(), event, context }, null, 2),
-      };
     }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ result: queryResult, data: getData(), event, context }, null, 2),
+    };
   });
-
-  // TODO: fix it
-  return result;
 };

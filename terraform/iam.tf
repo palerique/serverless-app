@@ -19,3 +19,74 @@ resource "aws_lambda_permission" "apigw" {
   //  source_arn = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/Prod/POST/hero-resource"
   source_arn = "${aws_api_gateway_rest_api.apiLambda.execution_arn}/*/*/*"
 }
+
+resource "aws_iam_role_policy_attachment" "jive-jia-aws-config" {
+  policy_arn = aws_iam_policy.heroes-policies.arn
+  role       = aws_iam_role.tour-of-heroes-lambda-role.name
+}
+
+resource "aws_iam_policy" "heroes-policies" {
+  policy = data.aws_iam_policy_document.heroes-policies-doc.json
+}
+
+data "aws_iam_policy_document" "heroes-policies-doc" {
+  statement {
+    sid    = "AllowCreatingLogGroups"
+    effect = "Allow"
+    resources = [
+      "arn:aws:logs:us-east-1:*:*"]
+    actions = [
+      "logs:CreateLogGroup"]
+  }
+
+  statement {
+    sid    = "AllowWritingLogs"
+    effect = "Allow"
+    resources = [
+      "arn:aws:logs:us-east-1:*:log-group:/aws/lambda/*:*"]
+
+    actions = [
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+  }
+
+  statement {
+    sid    = "AllowIAMPassRole"
+    effect = "Allow"
+    resources = [
+      "*"
+    ]
+    actions = [
+      "iam:*",
+      "iam:PassRole",
+      "organizations:DescribeAccount",
+      "organizations:DescribeOrganization",
+      "organizations:DescribeOrganizationalUnit",
+      "organizations:DescribePolicy",
+      "organizations:ListChildren",
+      "organizations:ListParents",
+      "organizations:ListPoliciesForTarget",
+      "organizations:ListRoots",
+      "organizations:ListPolicies",
+      "organizations:ListTargetsForPolicy"
+    ]
+  }
+
+  statement {
+    sid    = "AllowDynamoDbAccess"
+    effect = "Allow"
+    resources = [
+      "*"
+    ]
+    actions = [
+      "dynamodb:BatchGetItem",
+      "dynamodb:GetItem",
+      "dynamodb:Query",
+      "dynamodb:Scan",
+      "dynamodb:BatchWriteItem",
+      "dynamodb:PutItem",
+      "dynamodb:UpdateItem"
+    ]
+  }
+}
