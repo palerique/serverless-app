@@ -7,3 +7,8 @@ variable "aws_profile" {
   type    = string
   default = "default"
 }
+
+variable "DYNAMODB_TABLE" {
+  type    = string
+  default = "Heroes"
+}

@@ -1,6 +1,12 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
+import {
+  APIGatewayEventDefaultAuthorizerContext,
+  APIGatewayProxyEventBase,
+  APIGatewayProxyHandler,
+  Context,
+} from 'aws-lambda';
 import { DynamoDB } from 'aws-sdk';
 import { ScanInput } from 'aws-sdk/clients/dynamodb';
+import { APIGatewayProxyResult } from 'aws-lambda/trigger/api-gateway-proxy';
 
 const dynamoDb = new DynamoDB.DocumentClient();
 const params: ScanInput = {
@@ -28,22 +34,29 @@ function getData(): { heroes: Hero[] } {
   return { heroes };
 }
 
-export const handler: APIGatewayProxyHandler = (event, context) => {
-  // fetch all todos from the database
-  // For production workloads you should design your tables and indexes so that your applications can use Query instead of Scan.
-  dynamoDb.scan(params, (error, queryResult) => {
-    // handle potential errors
-    if (error) {
-      console.error(error);
-      return {
-        statusCode: error.statusCode || 501,
-        headers: { 'Content-Type': 'text/plain' },
-        body: "Couldn't fetch the todo items.",
-      };
-    }
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ result: queryResult, data: getData(), event, context }, null, 2),
-    };
-  });
+function prepareResponse(statusCode: number, body: any): APIGatewayProxyResult {
+  console.log('Preparing response with', statusCode, body);
+  return {
+    statusCode,
+    body: JSON.stringify(body),
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
+  };
+}
+
+export const handler: APIGatewayProxyHandler = async (
+  event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>,
+  context: Context,
+) => {
+  console.log('Starting Lambda processing');
+  try {
+    const response = await dynamoDb.scan(params).promise();
+    console.log('Handling dynamoDB scan', response, getData(), event, context);
+    return prepareResponse(200, { response });
+  } catch (err) {
+    console.error(err.message, err);
+    return err;
+  }
 };
